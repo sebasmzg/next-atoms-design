@@ -8,7 +8,7 @@ const StyledButton = styled.button<{ $view: string }>`
   border: none;
   cursor: pointer;
   padding: 0 20px;
-  height: 50px;
+  height: 40px;
   border-radius: ${(props) => props.theme.borderRadiusButton};
   background: ${(props) =>
     props.$view === "vacantes"
