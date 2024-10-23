@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledInput = styled.input<{ view: string }>`
+const StyledInput = styled.select`
   border: 2px solid ${(props) => props.theme.colors.borders.gray};
   padding: 10px;
   font-family: ${(props) => props.theme.fonts.primary};
@@ -10,29 +10,23 @@ const StyledInput = styled.input<{ view: string }>`
   font-size: ${(props) => props.theme.fontSizes.medium};
   color: ${(props) => props.theme.colors.text.mediumGray};
   background-color: ${(props) => props.theme.colors.background.white};
-  &:focus {
-    border-color: ${(props) => 
-      props.view === "vacantes"
-        ? props.theme.colors.focus.purple
-        : props.theme.colors.focus.pink};
-        outline: 2px solid ${(props) => props.theme.colors.borders.gray};
-        outline-offset: 2px;
-  }
 `;
 
-interface InputProps {
+interface SelectProps {
   title: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  view?: string;
   name: string;
-  type: string;
-  placeholder?: string;
+  options: string[];
 }
 
-export const InputText = ({ title, view="default", name, type  }: InputProps) => {
+export const InputSelect = ({ title, name, options }: SelectProps) => {
   return (
-    <StyledInput type={type} title={title} name={name} view={view} />
+    <StyledInput title={title} name={name} >
+      {options.map((option, index) => (
+        <option key={index} value={index}>
+          {option}
+        </option>
+      ))}
+    </StyledInput>
   );
 };
-
-

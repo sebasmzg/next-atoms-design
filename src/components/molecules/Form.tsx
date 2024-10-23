@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Label from '../atoms/Label';
 import { InputText } from '../atoms/Input-text';
-
 import styled from 'styled-components';
+import { InputTextArea } from '../atoms/Input-textarea';
+import { InputSelect } from '../atoms/InputSelect';
+import { ButtonForm } from '../atoms/Button-form';
+import { ButtonClose } from '../atoms/Button-close';
 
 const StyledForm = styled.form`
     display: flex;
@@ -26,7 +29,6 @@ const StyledFormTitle = styled.h2`
     font-size: ${(props) => props.theme.fontSizes.extraLarge};
     color: ${(props) => props.theme.colors.text.darkGray};
     margin: 0.5rem 0 1rem 0;
-
 `;
 
 interface FormProps {
@@ -53,20 +55,28 @@ const Form: React.FC<FormProps> = ({ onSubmit, view, title }) => {
 
     return (
         <StyledForm onSubmit={handleSubmit}>
+            <ButtonClose onClick={() => console.log('close')} />
             <StyledFormTitle>{title}</StyledFormTitle>
             <StyledFormGroup>
                 <Label text="Title" htmlfor="title" />
                 <InputText title="Title" name="title" onChange={handleChange} view={view} type="text" />
             </StyledFormGroup>
             <StyledFormGroup>
-                <Label text="Ubicación" htmlfor="ubicacion" />
-                <InputText title="Ubicación" name="ubicacion" onChange={handleChange} view={view} type="" />
+                <Label text="Descripción" htmlfor="descripcion" />
+                <InputTextArea title="Descripcion" name="descripcion" onChange={handleChange} />
             </StyledFormGroup>
             <StyledFormGroup>
-                <Label text="Contacto" htmlfor="contacto" />
-                <InputText title="Contacto" name="contacto" onChange={handleChange} view={view} type="text" />
+                <Label text="Estado" htmlfor="estado" />
+                <InputSelect title="Estado" name="estado" onChange={handleChange} options={['OPEN', 'CLOSE']}/>
             </StyledFormGroup>
-            <button type="submit">Submit</button>
+            <StyledFormGroup>
+                <Label text="Compañía" htmlfor="companie" />
+                <InputSelect title="Compañía" name="companie" onChange={handleChange} options={['Selecciona una compañía', 'Compañía 1','Compañia 2', 'Compañia 3']}/>
+            </StyledFormGroup>
+            <StyledFormGroup>
+                <ButtonForm text="Submit" view={view}/>
+            </StyledFormGroup>
+            
         </StyledForm>
     );
 };

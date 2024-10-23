@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useContext } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { theme } from '@/app/theme';
+import { theme } from '@/components/theme/theme';
 
 const ThemeContext = createContext(theme);
 
