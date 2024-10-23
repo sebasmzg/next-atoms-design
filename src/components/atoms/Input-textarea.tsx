@@ -12,13 +12,13 @@ const StyledTextArea = styled.textarea`
 `;
 
 interface TextAreaProps {
-  title: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  name: string;
-  placeholder?: string;
+  $title: string;
+  $onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  $name: string;
+  $placeholder?: string;
 }
 
-export const InputTextArea = ({ title, name }: TextAreaProps) => {
+export const InputTextArea = ({ $title: title, $name: name }: TextAreaProps) => {
   return (
     <StyledTextArea title={title} name={name}/>
   );

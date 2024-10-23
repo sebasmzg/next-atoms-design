@@ -14,12 +14,12 @@ const StyledInput = styled.select`
 
 interface SelectProps {
   title: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  name: string;
-  options: string[];
+  $onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  $name: string;
+  $options: string[];
 }
 
-export const InputSelect = ({ title, name, options }: SelectProps) => {
+export const InputSelect = ({ title, $name: name, $options: options }: SelectProps) => {
   return (
     <StyledInput title={title} name={name} >
       {options.map((option, index) => (

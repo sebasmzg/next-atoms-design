@@ -8,10 +8,10 @@ const StyledLabel = styled.label`
 
 
 interface LabelProps {
-    text: string;
-    htmlfor?: string;
+    $text: string;
+    $htmlfor?: string;
 }
-const Label: React.FC<LabelProps> = ({ text, htmlfor}) => {
+const Label: React.FC<LabelProps> = ({ $text: text, $htmlfor: htmlfor}) => {
     return (
         <StyledLabel htmlFor={htmlfor}>
             {text}

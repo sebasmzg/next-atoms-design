@@ -55,6 +55,7 @@ export const theme = {
     large: "24px",
   },
   borderRadius: "8px",
+  borderRadiusButton: "50px",
   transition: "0.3s ease",
 };
 

@@ -32,12 +32,12 @@ const StyledFormTitle = styled.h2`
 `;
 
 interface FormProps {
-    onSubmit: (formData: { [key: string]: string }) => void;
-    view: string;
-    title: string;
+    $onSubmit: (formData: { [key: string]: string }) => void;
+    $view: string;
+    $title: string;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit, view, title }) => {
+const Form: React.FC<FormProps> = ({ $onSubmit: onSubmit, $view: view, $title: title }) => {
     const [formData, setFormData] = useState<{ [key: string]: string }>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,26 +55,26 @@ const Form: React.FC<FormProps> = ({ onSubmit, view, title }) => {
 
     return (
         <StyledForm onSubmit={handleSubmit}>
-            <ButtonClose onClick={() => console.log('close')} />
+            <ButtonClose $onClick={() => console.log('close')} />
             <StyledFormTitle>{title}</StyledFormTitle>
             <StyledFormGroup>
-                <Label text="Title" htmlfor="title" />
-                <InputText title="Title" name="title" onChange={handleChange} view={view} type="text" />
+                <Label $text="Title" $htmlfor="title" />
+                <InputText $title="Title" $name="title" $onChange={handleChange} $view={view} $type="text" />
             </StyledFormGroup>
             <StyledFormGroup>
-                <Label text="Descripción" htmlfor="descripcion" />
-                <InputTextArea title="Descripcion" name="descripcion" onChange={handleChange} />
+                <Label $text="Descripción" $htmlfor="descripcion" />
+                <InputTextArea $title="Descripcion" $name="descripcion" $onChange={handleChange} />
             </StyledFormGroup>
             <StyledFormGroup>
-                <Label text="Estado" htmlfor="estado" />
-                <InputSelect title="Estado" name="estado" onChange={handleChange} options={['OPEN', 'CLOSE']}/>
+                <Label $text="Estado" $htmlfor="estado" />
+                <InputSelect title="Estado" $name="estado" $onChange={handleChange} $options={['OPEN', 'CLOSE']}/>
             </StyledFormGroup>
             <StyledFormGroup>
-                <Label text="Compañía" htmlfor="companie" />
-                <InputSelect title="Compañía" name="companie" onChange={handleChange} options={['Selecciona una compañía', 'Compañía 1','Compañia 2', 'Compañia 3']}/>
+                <Label $text="Compañía" $htmlfor="companie" />
+                <InputSelect title="Compañía" $name="companie" $onChange={handleChange} $options={['Selecciona una compañía', 'Compañía 1','Compañia 2', 'Compañia 3']}/>
             </StyledFormGroup>
             <StyledFormGroup>
-                <ButtonForm text="Submit" view={view}/>
+                <ButtonForm $text="Submit" $view={view}/>
             </StyledFormGroup>
             
         </StyledForm>

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-const StyledButton = styled.button<{ view: string }>`
+const StyledButton = styled.button<{ $view: string }>`
   display: flex;
   cursor: pointer;
   font-family: ${(props) => props.theme.fonts.primary};
   border-radius: ${(props) => props.theme.borderRadius};
   background: ${(props) =>
-    props.view === "vacantes"
+    props.$view === "vacantes"
       ? props.theme.colors.accent.vacantes.normal
       : props.theme.colors.accent.companies.normal};
   font-size: ${(props) => props.theme.fontSizes.medium};
@@ -21,18 +21,18 @@ const StyledButton = styled.button<{ view: string }>`
   border: none;
   color: ${(props) => props.theme.colors.text.white};
   &:hover { ${(props) =>
-    props.view === "vacantes"
+    props.$view === "vacantes"
       ? `background: ${props.theme.colors.accent.vacantes.hover};`
       : `background: ${props.theme.colors.accent.companies.hover};`}}
   }
 `;
 
-interface ButtonProps {
-  text: string;
-  onClick?: () => void;
-  view?: string;
+interface ButtonFormProps {
+  $text: string;
+  $onClick?: () => void;
+  $view?: string;
 }
 
-export const ButtonForm = ({ text, onClick, view="default" }: ButtonProps) => {
-  return <StyledButton onClick={onClick} view={view}>{text}</StyledButton>;
+export const ButtonForm = ({ $text: text, $onClick: onClick, $view: view="default" }: ButtonFormProps) => {
+  return <StyledButton onClick={onClick} $view={view}>{text}</StyledButton>;
 };
