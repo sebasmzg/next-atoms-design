@@ -7,7 +7,8 @@ const StyledSearchInputWrapper = styled.div`
     border: 1px solid ${(props) => props.theme.colors.borders.gray};
     padding: 10px;
     border-radius: ${(props) => props.theme.borderRadiusButton};
-    width: 100%;
+    width: 250px;
+    height: 2rem;
     box-sizing: border-box;
     background-color: ${(props) => props.theme.colors.background.white};
 `;
@@ -15,6 +16,7 @@ const StyledSearchInputWrapper = styled.div`
 const StyledSearchIcon = styled(CiSearch)`
     margin-right: 10px;
     color: ${(props) => props.theme.colors.text.mediumGray};
+    cursor: pointer;
 `;
 
 const StyledSearchInput = styled.input`
@@ -29,12 +31,13 @@ const StyledSearchInput = styled.input`
 interface SearchInputProps {
     $placeholder: string;
     $onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    $onClick?: () => void;
 }
 
-export const SearchInput = ({ $placeholder, $onChange }: SearchInputProps) => {
+export const SearchInput = ({ $placeholder, $onChange, $onClick }: SearchInputProps) => {
     return (
         <StyledSearchInputWrapper>
-            <StyledSearchIcon />
+            <StyledSearchIcon onClick={$onClick}/>
             <StyledSearchInput placeholder={$placeholder} onChange={$onChange}/>
         </StyledSearchInputWrapper>
     );

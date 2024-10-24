@@ -1,36 +1,40 @@
+import { ICompany, IVacancies } from "@/utils/models/model";
 import styled from "styled-components";
 
 const StyledCard = styled.div`
-    /* add styles */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid ${(props) => props.theme.colors.borders.gray};
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: ${(props) => props.theme.colors.background.white};
 `;
 
 interface CardProps {
-  $data?: Array<{
-    id: string;
-    title: string;
-    description: string;
-    state: string;
-    contact: string;
-  }>;
+  $data?: IVacancies | ICompany
 }
 
-export const Card = ({
-  $data,
-}: CardProps) => {
+export const Card = ({ $data }: CardProps) => {
+    const isVacancy = ($data: IVacancies | ICompany): $data is IVacancies => {
+        return ($data as IVacancies).companyId !== undefined;
+    }
   return (
     <StyledCard>
-      <>
-        {$data
-          ? $data.map((data) => (
-              <div>
-                <h2 key={data.id}>{data.title}</h2>
-                <p key={data.id}>{data.description}</p>
-                <p key={data.id}>{data.state}</p>
-                <p key={data.id}>{data.contact}</p>
-              </div>
-            ))
-          : null}
-      </>
+      {$data && isVacancy($data) ? (
+        <>
+            <h2>{$data.title}</h2>
+            <p>{$data.description}</p>
+            <p>{$data.state}</p>
+        </>
+      ):(
+        <>
+            <h2>{$data?.name}</h2>
+            <p>{$data?.city}</p>
+            <p>{$data?.contact}</p>
+        </>
+      )}
     </StyledCard>
   );
 };

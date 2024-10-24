@@ -7,8 +7,8 @@ const StyledButton = styled.button`
   outline: 0;
   border: 1px solid ${(props) => props.theme.colors.borders.gray};
   cursor: pointer;
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2rem;
+  width: 2rem;
   border-radius: ${(props) => props.theme.borderRadius};
   background: ${(props) => props.theme.colors.background.white};
   font-size: ${(props) => props.theme.fontSizes.medium};

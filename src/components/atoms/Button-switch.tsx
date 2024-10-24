@@ -5,7 +5,7 @@ import styled from "styled-components";
 const SwitchContainer = styled.div`
   display: flex;
   width: 250px;
-  height: 40px;
+  height: 2rem;
   border-radius: 25px;
   justify-content: space-between;
   position: relative;
@@ -18,7 +18,6 @@ const SwitchButton = styled.div<{ $isActive: boolean, $view: string }>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  height: 40px;
   border-radius: 25px;
   padding: 10px 20px;
   background: ${(props) =>
@@ -41,7 +40,7 @@ const SwitchButton = styled.div<{ $isActive: boolean, $view: string }>`
            ? props.$view === "vacantes"
             ? props.theme.colors.accent.vacantes.hover
             : props.theme.colors.accent.companies.hover
-          : props.theme.colors.background.lightGrayTabs};;
+          : props.theme.colors.background.lightGrayPagination};;
   }
 
   svg {
