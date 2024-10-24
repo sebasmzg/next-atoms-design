@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import Label from '../atoms/Label';
 import { InputText } from '../atoms/Input-text';
 import styled from 'styled-components';
@@ -35,9 +35,10 @@ interface FormProps {
     $onSubmit: (formData: { [key: string]: string }) => void;
     $view: string;
     $title: string;
+    $buttonClose: ReactNode;
 }
 
-const Form: React.FC<FormProps> = ({ $onSubmit: onSubmit, $view: view, $title: title }) => {
+const Form: React.FC<FormProps> = ({ $onSubmit: onSubmit, $view: view, $title: title, $buttonClose }) => {
     const [formData, setFormData] = useState<{ [key: string]: string }>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +56,7 @@ const Form: React.FC<FormProps> = ({ $onSubmit: onSubmit, $view: view, $title: t
 
     return (
         <StyledForm onSubmit={handleSubmit}>
-            <ButtonClose $onClick={() => console.log('close')} />
+            {$buttonClose}
             <StyledFormTitle>{title}</StyledFormTitle>
             <StyledFormGroup>
                 <Label $text="Title" $htmlfor="title" />

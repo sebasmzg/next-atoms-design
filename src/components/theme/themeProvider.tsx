@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { createContext, ReactNode, useContext } from 'react';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { theme } from '@/components/theme/theme';
+import { createContext, ReactNode, useContext } from "react";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import { theme } from "@/components/theme/theme";
+import { GlobalStyle } from "./globalStyles";
 
 const ThemeContext = createContext(theme);
 
@@ -11,12 +12,11 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  return (
-    <ThemeContext.Provider value={theme}>
-      <StyledThemeProvider theme={theme}>
-        {children}
-      </StyledThemeProvider>
-    </ThemeContext.Provider>
+  return(
+    <StyledThemeProvider theme={theme}>
+      <GlobalStyle />
+      {children}
+    </StyledThemeProvider>
   );
 };
 

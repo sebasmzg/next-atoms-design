@@ -18,6 +18,6 @@ interface CloseButtonProps {
     $onClick: () => void;
 }
 
-export const ButtonClose = ({ $onClick: onClick }: CloseButtonProps) => {
-    return <StyledCloseButton onClick={onClick}>x</StyledCloseButton>;
+export const ButtonClose = ({ $onClick }: CloseButtonProps) => {
+    return <StyledCloseButton onClick={$onClick}>x</StyledCloseButton>;
 };
