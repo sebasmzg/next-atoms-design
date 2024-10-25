@@ -1,4 +1,4 @@
-import { ICompany, IVacancies } from "@/utils/models/model";
+import { ICompany, IVacancy } from "@/utils/models/model";
 import styled from "styled-components";
 import { StyledTitleCard } from "../atoms/Card-title";
 import { StyledCardContent } from "../atoms/Card-content";
@@ -22,12 +22,12 @@ const StyledCard = styled.div`
 
 
 interface CardProps {
-  $data?: IVacancies | ICompany;
+  $data?: IVacancy | ICompany;
 }
 
 export const Card = ({ $data }: CardProps) => {
-  const isVacancy = ($data: IVacancies | ICompany): $data is IVacancies => {
-    return ($data as IVacancies).companyId !== undefined;
+  const isVacancy = ($data: IVacancy | ICompany): $data is IVacancy => {
+    return ($data as IVacancy).companyId !== undefined;
   };
   return (
     <StyledCard>

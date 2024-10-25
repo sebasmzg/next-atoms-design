@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { CardList } from "../organisms/Card-list";
 import { useEffect, useState } from "react";
-import { ICompany, IVacancies } from "@/utils/models/model";
+import { ICompany, IVacancy } from "@/utils/models/model";
 import ButtonSwitch from "../atoms/Button-switch";
 import { MdWorkOutline } from "react-icons/md";
 import { PiBuildingApartment } from "react-icons/pi";
@@ -75,7 +75,7 @@ export const Dashboard = () => {
   const [view, setView] = useState("vacantes");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [cardData, setCardData] = useState<Array<ICompany | IVacancies>>([]);
+  const [cardData, setCardData] = useState<Array<ICompany | IVacancy>>([]);
   const fetchCardData = async () => {
     try {
       const response = await fetch(

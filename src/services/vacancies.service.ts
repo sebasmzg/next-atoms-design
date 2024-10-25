@@ -1,0 +1,60 @@
+import { HttpClient } from "@/utils/client-http";
+import { IVacancy } from "@/utils/models/model";
+
+export class VacanciesService {
+  private httpClient: HttpClient;
+
+  constructor() {
+    this.httpClient = new HttpClient();
+  }
+
+  private errorHandler(error: unknown, service: string) {
+    console.error(error);
+    throw new Error(`Error ${service}`);
+  }
+
+  async getAllvacancies() {
+    try {
+      const vacancies = await this.httpClient.get<IVacancy[]>("vacancies");
+      return vacancies;
+    } catch (error) {
+      this.errorHandler(error, "fetching vacancies.");
+    }
+  }
+
+  async getVacancyById(id: string) {
+    try {
+      const vacancy = await this.httpClient.getById<IVacancy>("vacancies", id);
+      return vacancy;
+    } catch (error) {
+      this.errorHandler(error, "fetching vacancy by id.");
+    }
+  }
+
+  async updateVacancy<IVacancy>(id: string, data: IVacancy) {
+    try {
+      const vacancy = await this.httpClient.put("vacancies", id, data);
+      return vacancy;
+    } catch (error) {
+      this.errorHandler(error, "updating vacancy.");
+    }
+  }
+
+  async deleteVacancy(id: string) {
+    try {
+      const vacancy = await this.httpClient.delete("vacancies", id);
+      return vacancy;
+    } catch (error) {
+      this.errorHandler(error, "deleting vacancy.");
+    }
+  }
+
+  async createVacancy<IVacancy>(data: IVacancy) {
+    try {
+      const vacancy = await this.httpClient.post("vacancies", data);
+      return vacancy;
+    } catch (error) {
+      this.errorHandler(error, "creating vacancy.");
+    }
+  }
+}

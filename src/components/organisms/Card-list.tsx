@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Card } from "./Card";
-import { ICompany, IVacancies } from "@/utils/models/model";
+import { ICompany, IVacancy } from "@/utils/models/model";
 import { Pagination } from "../atoms/Pagination";
 
 const StyledCardList = styled.div`
@@ -21,7 +21,7 @@ const PaginatioWrapper = styled.div`
 `;
 
 interface CardListProps {
-  $data: Array<ICompany | IVacancies>;
+  $data: Array<ICompany | IVacancy>;
 }
 
 export const CardList = ({ $data }: CardListProps) => {

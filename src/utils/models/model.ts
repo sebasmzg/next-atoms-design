@@ -5,7 +5,7 @@ export interface ICompany {
     id:      string;
 }
 
-export interface IVacancies {
+export interface IVacancy {
     title:       string;
     description: string;
     state:       string;
