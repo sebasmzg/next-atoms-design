@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Card } from "./Card";
-import { ICompany, IVacancy } from "@/utils/models/model";
+import { ICompanyPageable, IVacanciesPageable } from "@/utils/models/models";
 import { Pagination } from "../atoms/Pagination";
+import { Card } from "../molecules/Card";
 
 const StyledCardList = styled.div`
   background: ${(props) => props.theme.colors.background.white};
@@ -21,20 +21,23 @@ const PaginatioWrapper = styled.div`
 `;
 
 interface CardListProps {
-  $data: Array<ICompany | IVacancy>;
+  $data: ICompanyPageable | IVacanciesPageable;
+  $currentPage: number;
+  $totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
-export const CardList = ({ $data }: CardListProps) => {
+export const CardList = ({ $data, $currentPage, $totalPages, onPageChange }: CardListProps) => {
   return (
     <>
-      <StyledCardList>
-        {$data.map((item) => (
+      <StyledCardList>       
+        {$data.content.map((item) => (
           <Card $data={item} key={item.id} />
         ))}
         <div></div>
       </StyledCardList>
       <PaginatioWrapper>
-        <Pagination $currentPage={1} $totalPages={10} />
+        <Pagination $currentPage={$currentPage} $totalPages={$totalPages} $onPageChange={onPageChange}/>
       </PaginatioWrapper>
     </>
   );

@@ -28,23 +28,45 @@ const StyledButton = styled.button`
 `;
 
 const StyledText = styled.p`
-    font-size: ${(props) => props.theme.fontSizes.medium};
-    color: ${(props) => props.theme.colors.text.darkGray};
+  font-size: ${(props) => props.theme.fontSizes.medium};
+  color: ${(props) => props.theme.colors.text.darkGray};
 `;
 
 interface PaginationProps {
-    $currentPage: number;
-    $totalPages: number;
-    $onLeftClick?: () => void;
-    $onRightClick?: () => void;
+  $currentPage: number;
+  $totalPages: number;
+  $onPageChange: (page: number) => void;
 }
 
-export const Pagination = ({$currentPage, $totalPages, $onLeftClick, $onRightClick}:PaginationProps) => {
+export const Pagination = ({
+  $currentPage,
+  $totalPages,
+  $onPageChange
+}: PaginationProps) => {
+
+  const handleLeftClick = () => {
+    if($currentPage > 1) {
+      $onPageChange($currentPage - 1);
+    }
+  }
+
+  const handleRightClick = () => {
+    if($currentPage < $totalPages) {
+      $onPageChange($currentPage + 1);
+    }
+  }
+
   return (
     <StyledPagination>
-      <StyledButton onClick={$onLeftClick}><FaChevronLeft /></StyledButton>
-        <StyledText>Page {$currentPage} of {$totalPages}</StyledText>
-      <StyledButton onClick={$onRightClick}><FaChevronRight /></StyledButton>
+      <StyledButton onClick={handleLeftClick} disabled={$currentPage === 1}>
+        <FaChevronLeft />
+      </StyledButton>
+      <StyledText>
+        Page {$currentPage} of {$totalPages}
+      </StyledText>
+      <StyledButton onClick={handleRightClick} disabled={$currentPage === $totalPages}>
+        <FaChevronRight />
+      </StyledButton>
     </StyledPagination>
   );
 };

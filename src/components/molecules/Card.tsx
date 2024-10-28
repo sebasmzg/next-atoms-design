@@ -1,4 +1,4 @@
-import { ICompany, IVacancy } from "@/utils/models/model";
+import { ICompanyResponse,IVacanciesResponse } from "@/utils/models/models";
 import styled from "styled-components";
 import { StyledTitleCard } from "../atoms/Card-title";
 import { StyledCardContent } from "../atoms/Card-content";
@@ -11,6 +11,7 @@ const StyledCard = styled.div`
   border-radius: ${(props) => props.theme.borderRadius};
   width: 90%;
   height: 100%;
+  text-align: left;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
   background-color: ${(props) => props.theme.colors.background.white};
@@ -22,39 +23,37 @@ const StyledCard = styled.div`
 
 
 interface CardProps {
-  $data?: IVacancy | ICompany;
+  $data?: IVacanciesResponse | ICompanyResponse;
 }
 
 export const Card = ({ $data }: CardProps) => {
-  const isVacancy = ($data: IVacancy | ICompany): $data is IVacancy => {
-    return ($data as IVacancy).companyId !== undefined;
+  const isVacancy = ($data: IVacanciesResponse | ICompanyResponse): $data is IVacanciesResponse => {
+    return ($data as IVacanciesResponse).company !== undefined;
   };
   return (
     <StyledCard>
-      {$data && isVacancy($data) ? (
-        <>
+      {$data && (
+        isVacancy($data) ? (
           <div>
             <StyledTitleCard $text={$data.title} />
             <StyledCardContent
               $text={[
                 `Description: ${$data.description}`,
-                `State: ${$data.state}`,
-                `Company: ${$data.companyId}`,
+                `State: ${$data.status}`,
+                `Company: ${$data.company.name}`,
               ]}
             />
+            <IconButtons />
           </div>
-          <IconButtons />
-        </>
-      ) : (
-        <div>
+        ) : (
           <div>
-            <StyledTitleCard $text={$data?.name} />
+            <StyledTitleCard $text={$data.name} />
             <StyledCardContent
-              $text={[`City: ${$data?.city}`, `Contact: ${$data?.contact}`]}
+              $text={[`Location: ${$data.location}`, `Contact: ${$data.contact}`]}
             />
+            <IconButtons />
           </div>
-          <IconButtons />
-        </div>
+        )
       )}
     </StyledCard>
   );

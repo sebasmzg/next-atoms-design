@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { CardList } from "../organisms/Card-list";
 import { useEffect, useState } from "react";
-import { ICompany, IVacancy } from "@/utils/models/model";
+import { ICompanyPageable, IVacanciesPageable } from "@/utils/models/models";
 import ButtonSwitch from "../atoms/Button-switch";
 import { MdWorkOutline } from "react-icons/md";
 import { PiBuildingApartment } from "react-icons/pi";
@@ -15,6 +15,7 @@ import { ButtonClose } from "../atoms/Button-close";
 
 const MainLayout = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -69,35 +70,47 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  border-radius: ${({ theme }) => theme.borderRadius};
 `;
 
 export const Dashboard = () => {
   const [view, setView] = useState("vacantes");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [cardData, setCardData] = useState<Array<ICompany | IVacancy>>([]);
-  const fetchCardData = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [cardData, setCardData] = useState<Array<ICompanyPageable | IVacanciesPageable>>([]);
+  
+  const fetchCardData = async (page: number = 1) => {
     try {
       const response = await fetch(
         view === "vacantes"
-          ? "https://671638f633bc2bfe40bcf693.mockapi.io/api/v1/vacancies"
-          : "https://671638f633bc2bfe40bcf693.mockapi.io/api/v1/companies"
-      );
+          ? `https://vacantsbackendgates-production.up.railway.app/api/v1/vacants?page=${page}&size=9`
+          : `https://vacantsbackendgates-production.up.railway.app/api/v1/company?page=${page}&size=9`
+      );         
       const data = await response.json();
+      console.log("data", data);
       setCardData(data);
+      setCurrentPage(data.number + 1);
+      console.log("currentPage", currentPage);
+      
+      setTotalPages(data.totalPages);
     } catch (error) {
       console.error("Error fetching data: ", error);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
-    fetchCardData();
-  }, [view]);
+    fetchCardData(currentPage);
+  }, [view, currentPage]);
+
   const handleSwitch = (isLeft: boolean) => {
     setView(isLeft ? "vacantes" : "companies");
-    fetchCardData();
+    setCurrentPage(1);
   };
+
   const handleSubmit = () => {
     console.log("submit");
   };
@@ -144,13 +157,13 @@ export const Dashboard = () => {
                 $onSubmit={() => handleSubmit}
                 $view={view}
                 $title={view}
-                $buttonClose={<ButtonClose $onClick={() => handleCloseModal} />}
+                $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
               />
             </Modal>
           )}
         </PageTitle>
 
-        <div>{loading ? <p>Loading...</p> : <CardList $data={cardData} />}</div>
+        <div>{loading ? <p>Loading...</p> : <CardList $data={cardData} $currentPage={currentPage} $totalPages={totalPages} onPageChange={setCurrentPage} />}</div>
       </ContentWrapper>
     </MainLayout>
   );

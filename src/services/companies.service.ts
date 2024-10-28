@@ -1,5 +1,5 @@
 import { HttpClient } from "@/utils/client-http";
-import { ICompany } from "@/utils/models/model";
+import { ICompanyResponse } from "@/utils/models/models";
 
 export class CompaniesService {
   private httpClient: HttpClient;
@@ -15,7 +15,7 @@ export class CompaniesService {
 
   async getAllCompanies() {
     try {
-      const companies = await this.httpClient.get<ICompany[]>("companies");
+      const companies = await this.httpClient.get<ICompanyResponse[]>("company");
       return companies;
     } catch (error) {
       this.errorHandler(error, "fetching companies.");
@@ -24,7 +24,7 @@ export class CompaniesService {
 
   async getCompanyById(id: string) {
     try {
-      const company = await this.httpClient.getById<ICompany>("companies", id);
+      const company = await this.httpClient.getById<ICompanyResponse>("company", id);
       return company;
     } catch (error) {
       this.errorHandler(error, "fetching company by id.");
@@ -33,7 +33,7 @@ export class CompaniesService {
 
   async updateCompany<ICompany>(id: string, data: ICompany) {
     try {
-      const company = await this.httpClient.put("companies", id, data);
+      const company = await this.httpClient.put("company", id, data);
       return company;
     } catch (error) {
       this.errorHandler(error, "updating company.");
@@ -42,7 +42,7 @@ export class CompaniesService {
 
   async deleteCompany(id: string) {
     try {
-      const company = await this.httpClient.delete("companies", id);
+      const company = await this.httpClient.delete("company", id);
       return company;
     } catch (error) {
       this.errorHandler(error, "deleting company.");
@@ -51,7 +51,7 @@ export class CompaniesService {
 
   async createCompany<ICompany>(data: ICompany) {
     try {
-      const company = await this.httpClient.post("companies", data);
+      const company = await this.httpClient.post("company", data);
       return company;
     } catch (error) {
       this.errorHandler(error, "creating company.");

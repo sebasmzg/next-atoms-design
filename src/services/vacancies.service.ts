@@ -1,5 +1,5 @@
 import { HttpClient } from "@/utils/client-http";
-import { IVacancy } from "@/utils/models/model";
+import { IVacanciesResponse } from "@/utils/models/models";
 
 export class VacanciesService {
   private httpClient: HttpClient;
@@ -15,7 +15,7 @@ export class VacanciesService {
 
   async getAllvacancies() {
     try {
-      const vacancies = await this.httpClient.get<IVacancy[]>("vacancies");
+      const vacancies = await this.httpClient.get<IVacanciesResponse[]>("vacants");
       return vacancies;
     } catch (error) {
       this.errorHandler(error, "fetching vacancies.");
@@ -24,7 +24,7 @@ export class VacanciesService {
 
   async getVacancyById(id: string) {
     try {
-      const vacancy = await this.httpClient.getById<IVacancy>("vacancies", id);
+      const vacancy = await this.httpClient.getById<IVacanciesResponse>("vacants", id);
       return vacancy;
     } catch (error) {
       this.errorHandler(error, "fetching vacancy by id.");
@@ -33,7 +33,7 @@ export class VacanciesService {
 
   async updateVacancy<IVacancy>(id: string, data: IVacancy) {
     try {
-      const vacancy = await this.httpClient.put("vacancies", id, data);
+      const vacancy = await this.httpClient.put("vacants", id, data);
       return vacancy;
     } catch (error) {
       this.errorHandler(error, "updating vacancy.");
@@ -42,7 +42,7 @@ export class VacanciesService {
 
   async deleteVacancy(id: string) {
     try {
-      const vacancy = await this.httpClient.delete("vacancies", id);
+      const vacancy = await this.httpClient.delete("vacants", id);
       return vacancy;
     } catch (error) {
       this.errorHandler(error, "deleting vacancy.");
@@ -51,7 +51,7 @@ export class VacanciesService {
 
   async createVacancy<IVacancy>(data: IVacancy) {
     try {
-      const vacancy = await this.httpClient.post("vacancies", data);
+      const vacancy = await this.httpClient.post("vacants", data);
       return vacancy;
     } catch (error) {
       this.errorHandler(error, "creating vacancy.");
