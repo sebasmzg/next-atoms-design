@@ -1,5 +1,5 @@
 import { HttpClient } from "@/utils/client-http";
-import { ICompanyResponse } from "@/utils/models/models";
+import { ICompanyPageable, ICompanyResponse } from "@/utils/models/models";
 
 export class CompaniesService {
   private httpClient: HttpClient;
@@ -13,27 +13,36 @@ export class CompaniesService {
     throw new Error(`Error ${service}`);
   }
 
-  async getAllCompanies() {
+  async getCompanies(page: number, size: number) {
     try {
-      const companies = await this.httpClient.get<ICompanyResponse[]>("company");
+      const companies = await this.httpClient.get<ICompanyPageable[]>(`company?page=${page}&size=${size}`);
       return companies;
     } catch (error) {
       this.errorHandler(error, "fetching companies.");
     }
   }
 
-  async getCompanyById(id: string) {
+  async getAllCompanies() {
     try {
-      const company = await this.httpClient.getById<ICompanyResponse>("company", id);
+      const companies = await this.httpClient.get<ICompanyResponse[]>("company/all");
+      return companies;
+    } catch (error) {
+      this.errorHandler(error, "fetching companies.");
+    }
+  }
+
+  async getCompanyById<ICompany>(id: string) {
+    try {
+      const company = await this.httpClient.getById<ICompany>("company", id);
       return company;
     } catch (error) {
       this.errorHandler(error, "fetching company by id.");
     }
   }
 
-  async updateCompany<ICompany>(id: string, data: ICompany) {
+  async updateCompany<ICompanyResponse, ICompany>(id: string, data: ICompany){
     try {
-      const company = await this.httpClient.put("company", id, data);
+      const company = await this.httpClient.put<ICompanyResponse, ICompany>("company", id, data);
       return company;
     } catch (error) {
       this.errorHandler(error, "updating company.");
@@ -51,7 +60,7 @@ export class CompaniesService {
 
   async createCompany<ICompany>(data: ICompany) {
     try {
-      const company = await this.httpClient.post("company", data);
+      const company = await this.httpClient.post<ICompanyResponse,ICompany>("company", data);
       return company;
     } catch (error) {
       this.errorHandler(error, "creating company.");

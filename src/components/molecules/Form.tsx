@@ -15,15 +15,15 @@ const StyledForm = styled.form`
 `;
 
 interface FormProps {
-    $buttonClose: ReactNode;
+    $buttonClose?: ReactNode;
     children?: ReactNode;
     onSubmit: (e: React.FormEvent) => void;
 }
 
-const Form: React.FC<FormProps> = ({ $buttonClose, children }) => {
+const Form: React.FC<FormProps> = ({ $buttonClose, children, onSubmit }) => {
 
     return (
-        <StyledForm>
+        <StyledForm onSubmit={onSubmit}>
             {$buttonClose}
             {children}
         </StyledForm>

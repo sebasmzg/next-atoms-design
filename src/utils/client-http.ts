@@ -1,4 +1,4 @@
-const defaultBaseUrl = process.env.BASE_URL || "";
+const defaultBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
 export class HttpClient {
   private baseUrl: string;
 
@@ -13,9 +13,9 @@ export class HttpClient {
   }
 
   private async handleResponse(response: Response) {
-    if (response.ok) {
+    if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Something went wrong");
+      throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
     }
     return await response.json();
   }
@@ -60,6 +60,7 @@ export class HttpClient {
 
   async post<T, R>(url: string, data: R): Promise<T> {
     const header = await this.getHeader();
+    console.log("URL:", `${this.baseUrl}/${url}`);
     const response = await fetch(`${this.baseUrl}/${url}`, {
       headers: header,
       method: "POST",

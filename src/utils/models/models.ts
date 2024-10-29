@@ -35,7 +35,6 @@ export interface ICompanyPageable {
     empty:            boolean;
 }
 
-
 //-------------VACANCIES
 
 export interface IVacant {

@@ -1,5 +1,5 @@
 import { HttpClient } from "@/utils/client-http";
-import { IVacanciesResponse } from "@/utils/models/models";
+import { IVacanciesPageable, IVacanciesResponse } from "@/utils/models/models";
 
 export class VacanciesService {
   private httpClient: HttpClient;
@@ -11,6 +11,17 @@ export class VacanciesService {
   private errorHandler(error: unknown, service: string) {
     console.error(error);
     throw new Error(`Error ${service}`);
+  }
+
+  async getVacancies(page: number, size: number) {
+    try {
+      const vacancies = await this.httpClient.get<IVacanciesPageable[]>(
+        `vacants?page=${page}&size=${size}`
+      );
+      return vacancies;
+    } catch (error) {
+      this.errorHandler(error, "fetching vacancies.");
+    }
   }
 
   async getAllvacancies() {
@@ -33,7 +44,7 @@ export class VacanciesService {
 
   async updateVacancy<IVacancy>(id: string, data: IVacancy) {
     try {
-      const vacancy = await this.httpClient.put("vacants", id, data);
+      const vacancy = await this.httpClient.put<IVacanciesResponse, IVacancy>("vacants", id, data);
       return vacancy;
     } catch (error) {
       this.errorHandler(error, "updating vacancy.");
@@ -51,7 +62,7 @@ export class VacanciesService {
 
   async createVacancy<IVacancy>(data: IVacancy) {
     try {
-      const vacancy = await this.httpClient.post("vacants", data);
+      const vacancy = await this.httpClient.post<IVacanciesResponse, IVacancy>("vacants", data);
       return vacancy;
     } catch (error) {
       this.errorHandler(error, "creating vacancy.");

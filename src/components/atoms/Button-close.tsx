@@ -15,7 +15,7 @@ const StyledCloseButton = styled.button`
 `;
 
 interface CloseButtonProps {
-    $onClick: () => void;
+    $onClick?: () => void;
 }
 
 export const ButtonClose = ({ $onClick }: CloseButtonProps) => {

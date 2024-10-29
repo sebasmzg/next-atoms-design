@@ -29,10 +29,9 @@ const StyledButton = styled.button<{ $view: string }>`
 
 interface ButtonFormProps {
   $text: string;
-  $onClick?: () => void;
   $view?: string;
 }
 
-export const ButtonForm = ({ $text: text, $onClick: onClick, $view: view="default"}: ButtonFormProps) => {
-  return <StyledButton onClick={onClick} $view={view} type="submit">{text}</StyledButton>;
+export const ButtonForm = ({ $text: text, $view: view="default"}: ButtonFormProps) => {
+  return <StyledButton $view={view} type="submit">{text}</StyledButton>;
 };

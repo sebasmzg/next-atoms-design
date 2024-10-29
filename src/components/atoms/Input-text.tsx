@@ -29,9 +29,9 @@ interface InputProps {
   $placeholder?: string;
 }
 
-export const InputText = ({ $title: $title, $view="default",$name, $type  }: InputProps) => {
+export const InputText = ({ $title: $title, $view="default",$name, $type, $onChange }: InputProps) => {
   return (
-    <StyledInput type={$type} title={$title} name={$name} $view={$view} />
+    <StyledInput type={$type} title={$title} name={$name} $view={$view} onChange={$onChange}/>
   );
 };
 
