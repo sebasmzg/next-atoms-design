@@ -11,13 +11,15 @@ const StyledCard = styled.div`
   border-radius: ${(props) => props.theme.borderRadius};
   width: 90%;
   height: 100%;
+  position: relative;
   text-align: left;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
   background-color: ${(props) => props.theme.colors.background.white};
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px);
+    transform: scale(1.01);
+    cursor: pointer;
   }
 `;
 
@@ -43,7 +45,7 @@ export const Card = ({ $data }: CardProps) => {
                 `Company: ${$data.company.name}`,
               ]}
             />
-            <IconButtons />
+            <IconButtons/>
           </div>
         ) : (
           <div>

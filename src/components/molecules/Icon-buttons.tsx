@@ -6,7 +6,9 @@ import { ButtonIcon } from "../atoms/Button-icons";
 
 const StyledIcons = styled.div`
   display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+  bottom: 0;
   padding: 1rem;
   gap: 0.5rem;
 `;

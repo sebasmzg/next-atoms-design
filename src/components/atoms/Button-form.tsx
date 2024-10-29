@@ -33,6 +33,6 @@ interface ButtonFormProps {
   $view?: string;
 }
 
-export const ButtonForm = ({ $text: text, $onClick: onClick, $view: view="default" }: ButtonFormProps) => {
-  return <StyledButton onClick={onClick} $view={view}>{text}</StyledButton>;
+export const ButtonForm = ({ $text: text, $onClick: onClick, $view: view="default"}: ButtonFormProps) => {
+  return <StyledButton onClick={onClick} $view={view} type="submit">{text}</StyledButton>;
 };

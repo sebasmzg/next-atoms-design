@@ -1,5 +1,6 @@
-import { CiSearch } from "react-icons/ci";
 import styled from "styled-components";
+import { InputSearch } from "../atoms/Input-search";
+import { IconSearch } from "../atoms/Icon-search";
 
 const StyledSearchInputWrapper = styled.div`
     display: flex;
@@ -13,21 +14,6 @@ const StyledSearchInputWrapper = styled.div`
     background-color: ${(props) => props.theme.colors.background.white};
 `;
 
-const StyledSearchIcon = styled(CiSearch)`
-    margin-right: 10px;
-    color: ${(props) => props.theme.colors.text.mediumGray};
-    cursor: pointer;
-`;
-
-const StyledSearchInput = styled.input`
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: ${(props) => props.theme.fontSizes.medium};
-    color: ${(props) => props.theme.colors.text.mediumGray};
-    background-color: ${(props) => props.theme.colors.background.white};
-`;
-
 interface SearchInputProps {
     $placeholder: string;
     $onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -37,8 +23,8 @@ interface SearchInputProps {
 export const SearchInput = ({ $placeholder, $onChange, $onClick }: SearchInputProps) => {
     return (
         <StyledSearchInputWrapper>
-            <StyledSearchIcon onClick={$onClick}/>
-            <StyledSearchInput placeholder={$placeholder} onChange={$onChange}/>
+            <IconSearch $onClick={$onClick}/>
+            <InputSearch $placeholder={$placeholder} $onChange={$onChange}/>
         </StyledSearchInputWrapper>
     );
 };
