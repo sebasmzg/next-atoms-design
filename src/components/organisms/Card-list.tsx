@@ -19,16 +19,20 @@ interface CardListProps {
   $currentPage: number;
   $totalPages: number;
   onPageChange: (page: number) => void;
+  $view?: string;
 }
 
-export const CardList = ({ $data, $currentPage, $totalPages, onPageChange }: CardListProps) => {
+export const CardList = ({ $data, $currentPage, $totalPages, onPageChange, $view="default" }: CardListProps) => {
   return (
     <>
       <StyledCardList>       
-        {$data.content.map((item) => (
-          <Card $data={item} key={item.id} />
-        ))}
-        <div></div>
+        {$data.content && $data.content.length > 0 ?(
+          $data.content.map((item) => (
+            <Card $data={item} key={item.id} $view={$view}/>
+          ))
+        ):(
+          <div>Fetching data...</div>
+        )}
       </StyledCardList>
       <PaginationWrapper>
         <Pagination $currentPage={$currentPage} $totalPages={$totalPages} $onPageChange={onPageChange}/>

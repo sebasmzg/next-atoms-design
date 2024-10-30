@@ -38,6 +38,7 @@ export const FormCompany = ({ view, onClose }: FormCompanyProps) => {
     e.preventDefault();
     console.log("Form Data before form:", formData);
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await companiesService.createCompany(formData);
       onClose();
     } catch (error) {

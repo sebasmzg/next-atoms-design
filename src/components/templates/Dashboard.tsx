@@ -1,8 +1,6 @@
 "use client";
 
-import { CardList } from "../organisms/Card-list";
-import { useEffect, useState } from "react";
-import { ICompanyPageable, IVacanciesPageable } from "@/utils/models/models";
+import {  useState } from "react";
 import ButtonSwitch from "../atoms/Button-switch";
 import { MdWorkOutline } from "react-icons/md";
 import { PiBuildingApartment } from "react-icons/pi";
@@ -17,42 +15,16 @@ import { Navbar } from "../atoms/Navbar";
 import { Modal } from "../atoms/Modal";
 import { FormCompany } from "../organisms/Form-company";
 import { FormVacancy } from "../organisms/Form-vacancy";
+import Company from "./Company";
+import Vacancy from "./Vacancy";
 
 export const Dashboard = () => {
   const [view, setView] = useState("vacantes");
-  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [cardData, setCardData] = useState<
-    Array<ICompanyPageable | IVacanciesPageable>
-  >([]);
 
-  const fetchCardData = async (page: number = 1) => {
-    try {
-      const response = await fetch(
-        view === "vacantes"
-          ? `https://vacantsbackendgates-production.up.railway.app/api/v1/vacants?page=${page}&size=6`
-          : `https://vacantsbackendgates-production.up.railway.app/api/v1/company?page=${page}&size=9`
-      );
-      const data = await response.json();
-      setCardData(data);
-      setCurrentPage(data.number + 1);
-      setTotalPages(data.totalPages);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCardData(currentPage);
-  }, [view, currentPage]);
 
   const handleSwitch = (isLeft: boolean) => {
     setView(isLeft ? "vacantes" : "companies");
-    setCurrentPage(1);
   };
 
 
@@ -111,17 +83,11 @@ export const Dashboard = () => {
             </Modal>
           )}
         </PageHeader>
-
         <div>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <CardList
-              $data={cardData}
-              $currentPage={currentPage}
-              $totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+          {view === "vacantes" ? (
+            <Vacancy />
+          ):(
+            <Company />
           )}
         </div>
       </MainContent>

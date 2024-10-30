@@ -19,8 +19,9 @@ const StyledButton = styled.button`
 
 interface ButtonIconProps {
   $icon: React.ReactNode;
+  $onClick?: () => void;
 }
 
-export const ButtonIcon = ({ $icon }: ButtonIconProps) => {
-  return <StyledButton>{$icon}</StyledButton>;
+export const ButtonIcon = ({ $icon, $onClick }: ButtonIconProps) => {
+  return <StyledButton onClick={$onClick}>{$icon}</StyledButton>;
 };

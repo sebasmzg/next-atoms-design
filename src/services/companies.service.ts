@@ -15,7 +15,7 @@ export class CompaniesService {
 
   async getCompanies(page: number, size: number) {
     try {
-      const companies = await this.httpClient.get<ICompanyPageable[]>(`company?page=${page}&size=${size}`);
+      const companies = await this.httpClient.get<ICompanyPageable | undefined>(`company?page=${page}&size=${size}`);
       return companies;
     } catch (error) {
       this.errorHandler(error, "fetching companies.");

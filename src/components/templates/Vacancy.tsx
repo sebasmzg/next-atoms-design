@@ -1,20 +1,20 @@
 "use client";
 
-import { CompaniesService } from "@/services/companies.service";
-import { ICompanyPageable } from "@/utils/models/models";
+import { IVacanciesPageable } from "@/utils/models/models";
 import { useEffect, useState } from "react";
 import { CardList } from "../organisms/Card-list";
+import { VacanciesService } from "@/services/vacancies.service";
 
-const companiesService = new CompaniesService();
+const vacanciesService = new VacanciesService();
 
-export default function Companies() {
-  const [cardData, setCardData] = useState<Array<ICompanyPageable>>([]);
+export default function Vacancies() {
+  const [cardData, setCardData] = useState<Array<IVacanciesPageable>>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchCardData = async (page: number = 1, size: number = 6) => {
     try {
-        const response = await companiesService.getCompanies(page, size);       
+        const response = await vacanciesService.getVacancies(page, size);
         if (response){
             setCardData(response);
             setCurrentPage(response.number + 1);
@@ -35,7 +35,7 @@ export default function Companies() {
       $currentPage={currentPage}
       $totalPages={totalPages}
       onPageChange={setCurrentPage}
-      $view="company"
+      $view="vacantes"
     />
   );
 }

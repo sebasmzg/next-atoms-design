@@ -3,7 +3,6 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { ButtonIcon } from "../atoms/Button-icons";
 
-
 const StyledIcons = styled.div`
   display: flex;
   position: absolute;
@@ -13,11 +12,18 @@ const StyledIcons = styled.div`
   gap: 0.5rem;
 `;
 
-const IconButtons = () => {
+const IconButtons = ({view}: {view:string}) => {
+  const handleEdit = () => {
+    {view === "vacantes" ? console.log("vacantes") : console.log("Edit button clicked")}
+  }
+  
+  const handleDelete = () => {
+    console.log("Delete button clicked");
+  }
   return (
     <StyledIcons>
-      <ButtonIcon $icon={<MdOutlineModeEdit color="blue" />} />
-      <ButtonIcon $icon={<FaRegTrashAlt color="red" />} />
+      <ButtonIcon $onClick={handleEdit} $icon={<MdOutlineModeEdit color="blue" />} />
+      <ButtonIcon $onClick={handleDelete} $icon={<FaRegTrashAlt color="red" />} />
     </StyledIcons>
   );
 };

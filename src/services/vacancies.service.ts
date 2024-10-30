@@ -15,7 +15,7 @@ export class VacanciesService {
 
   async getVacancies(page: number, size: number) {
     try {
-      const vacancies = await this.httpClient.get<IVacanciesPageable[]>(
+      const vacancies = await this.httpClient.get<IVacanciesPageable | undefined>(
         `vacants?page=${page}&size=${size}`
       );
       return vacancies;
