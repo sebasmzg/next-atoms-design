@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { FormGroup } from "../atoms/Form-group";
 import { FormTitle } from "../atoms/Form-title";
 import { InputText } from "../atoms/Input-text";
@@ -10,10 +10,12 @@ import { ButtonForm } from "../atoms/Button-form";
 import Form from "../molecules/Form";
 import { ButtonClose } from "../atoms/Button-close";
 import { ICompanyRequest } from "@/utils/models/models";
+import { useModal } from "@/hooks/useModal";
 
 type FormCompanyProps = {
   view: string;
   onClose: () => void;
+  $buttonClose?: ReactNode;
 };
 
 const initialState = {
@@ -24,7 +26,7 @@ const initialState = {
 
 const companiesService = new CompaniesService();
 
-export const FormCompany = ({ view, onClose }: FormCompanyProps) => {
+export const FormCompany = ({ view, onClose,  $buttonClose }: FormCompanyProps) => {
   const [formData, setFormData] = useState<ICompanyRequest>(initialState);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +50,8 @@ export const FormCompany = ({ view, onClose }: FormCompanyProps) => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit} $buttonClose={<ButtonClose />}>
+      <Form onSubmit={handleSubmit} >
+        { $buttonClose }
         <FormTitle $title="Company" />
         <FormGroup>
           <Label $text="Name" $htmlfor="name" />

@@ -17,25 +17,15 @@ import { FormCompany } from "../organisms/Form-company";
 import { FormVacancy } from "../organisms/Form-vacancy";
 import Company from "./Company";
 import Vacancy from "./Vacancy";
+import { useModal } from "@/hooks/useModal";
+import { ButtonClose } from "../atoms/Button-close";
 
 export const Dashboard = () => {
   const [view, setView] = useState("vacantes");
-  const [showModal, setShowModal] = useState(false);
-
+  const {showModal,handleCloseModal, setShowModal, handleMouseCloseModal } = useModal()
 
   const handleSwitch = (isLeft: boolean) => {
     setView(isLeft ? "vacantes" : "companies");
-  };
-
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleMouseCloseModal = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      setShowModal(false);
-    }
   };
 
   return (
@@ -73,11 +63,11 @@ export const Dashboard = () => {
             <Modal $onClick={handleMouseCloseModal}>
               {view === "companies" ? (
                 <>
-                  <FormCompany view={view} onClose={handleCloseModal} />
+                  <FormCompany view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} />}/>
                 </>
               ) : (
                 <>
-                  <FormVacancy view={view} onClose={handleCloseModal} />
+                  <FormVacancy view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} />}/>
                 </>
               )}
             </Modal>

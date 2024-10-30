@@ -13,9 +13,10 @@ import Form from "../molecules/Form";
 type FormCompanyProps = {
   view: string;
   onClose: () => void;
+  $buttonClose?: React.ReactNode;
 };
 
-export const FormVacancy = ({ view, onClose }: FormCompanyProps) => {
+export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
   const companiesService = new CompaniesService();
 
@@ -40,6 +41,7 @@ export const FormVacancy = ({ view, onClose }: FormCompanyProps) => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
+      { $buttonClose }
         <FormTitle $title="Vacancy" />
         <FormGroup>
           <Label $text="Title" $htmlfor="title" />

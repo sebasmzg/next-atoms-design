@@ -15,7 +15,7 @@ const StyledCardList = styled.div`
 `;
 
 interface CardListProps {
-  $data: ICompanyPageable | IVacanciesPageable;
+  $data: ICompanyPageable | IVacanciesPageable | null;
   $currentPage: number;
   $totalPages: number;
   onPageChange: (page: number) => void;
@@ -26,7 +26,7 @@ export const CardList = ({ $data, $currentPage, $totalPages, onPageChange, $view
   return (
     <>
       <StyledCardList>       
-        {$data.content && $data.content.length > 0 ?(
+        {$data && $data.content && $data.content.length > 0 ?(
           $data.content.map((item) => (
             <Card $data={item} key={item.id} $view={$view}/>
           ))
