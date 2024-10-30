@@ -24,7 +24,7 @@ export class CompaniesService {
 
   async getAllCompanies() {
     try {
-      const companies = await this.httpClient.get<ICompanyResponse[]>("company/all");
+      const companies = await this.httpClient.get<ICompanyResponse[] | undefined>("company/all");
       return companies;
     } catch (error) {
       this.errorHandler(error, "fetching companies.");

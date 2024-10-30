@@ -6,9 +6,11 @@ import { FormTitle } from "../atoms/Form-title";
 import { InputText } from "../atoms/Input-text";
 import Label from "../atoms/Label";
 import { InputSelect } from "../atoms/InputSelect";
-import { CompaniesService } from "@/services/companies.service";
 import { ButtonForm } from "../atoms/Button-form";
 import Form from "../molecules/Form";
+import { VacanciesService } from "@/services/vacancies.service";
+import { useAllCompanies } from "@/hooks/useAllCompanies";
+import { IVacancyRequest } from "@/utils/models/models";
 
 type FormCompanyProps = {
   view: string;
@@ -16,22 +18,34 @@ type FormCompanyProps = {
   $buttonClose?: React.ReactNode;
 };
 
-export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) => {
-  const [formData, setFormData] = useState<{ [key: string]: string }>({});
-  const companiesService = new CompaniesService();
+const initialState = {
+  title: "",
+  description: "",
+  status: "",
+  companyId: "",
+};
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) => {
+  const [formData, setFormData] = useState<IVacancyRequest>(initialState);
+  const { companies } = useAllCompanies();
+  const vacanciesService = new VacanciesService();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+    console.log("Form Data change:", { ...formData, [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("data", formData);
     try {
-      await companiesService.createCompany(formData);
+      console.log("Form Data before form:", formData);
+      await vacanciesService.createVacancy(formData);
+      console.log("Form Data after form:", formData);
       onClose();
     } catch (error) {
       console.error("Error creating company: ", error);
@@ -77,17 +91,17 @@ export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) =
           />
         </FormGroup>
         <FormGroup>
-          <Label $text="Company" $htmlfor="company" />
+          <Label $text="Company" $htmlfor="companyId" />
           <InputSelect
             $title="Company"
-            $name="company"
+            $name="companyId"
             $onChange={handleChange}
             $view={view}
-            $options={[
-              { value: "1", label: "Company 1" },
-              { value: "2", label: "Company 2" },
-              { value: "3", label: "Company 3" },
-            ]}
+            $options={
+              companies ? 
+              companies.map((company)=>({value: company.id, label: company.name})) :
+              []
+            }
           />
         </FormGroup>
         <FormGroup>

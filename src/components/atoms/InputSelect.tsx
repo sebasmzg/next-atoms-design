@@ -22,17 +22,18 @@ const StyledInput = styled.select<{ $view: string }>`
 
 interface SelectProps {
   $title: string;
-  $onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  $onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   $name: string;
   $options: { value: string; label: string }[];
   $view?: string;
 }
 
-export const InputSelect = ({ $title: title, $name: name, $options: options, $view="default" }: SelectProps) => {
+export const InputSelect = ({ $onChange, $title: title, $name: name, $options: options, $view="default" }: SelectProps) => {
   return (
-    <StyledInput title={title} name={name} $view={$view} >
-      {options.map((option, index) => (
-        <option key={index} value={option.value}>
+    <StyledInput title={title} name={name} $view={$view} onChange={$onChange}>
+      <option value="">Select...</option>
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
           {option.label}
         </option>
       ))}

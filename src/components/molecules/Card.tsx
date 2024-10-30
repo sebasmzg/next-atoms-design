@@ -23,13 +23,11 @@ const StyledCard = styled.div`
   }
 `;
 
-
 interface CardProps {
   $data?: IVacanciesResponse | ICompanyResponse;
-  $view?: string;
 }
 
-export const Card = ({ $data, $view="default" }: CardProps) => {
+export const Card = ({ $data }: CardProps) => {
   const isVacancy = ($data: IVacanciesResponse | ICompanyResponse): $data is IVacanciesResponse => {
     return ($data as IVacanciesResponse).company !== undefined;
   };
@@ -46,7 +44,7 @@ export const Card = ({ $data, $view="default" }: CardProps) => {
                 `Company: ${$data.company.name}`,
               ]}
             />
-            <IconButtons view={$view}/>
+            <IconButtons view="companies"/>
           </div>
         ) : (
           <div>
@@ -54,7 +52,7 @@ export const Card = ({ $data, $view="default" }: CardProps) => {
             <StyledCardContent
               $text={[`Location: ${$data.location}`, `Contact: ${$data.contact}`]}
             />
-            <IconButtons view={$view}/>
+            <IconButtons view="companies"/>
           </div>
         )
       )}

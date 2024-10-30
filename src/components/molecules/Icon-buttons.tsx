@@ -1,9 +1,12 @@
-'use client'
 import styled from "styled-components";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { ButtonIcon } from "../atoms/Button-icons";
 import { useModal } from "@/hooks/useModal";
+import { Modal } from "../atoms/Modal";
+import { FormCompany } from "../organisms/Form-company";
+import { ButtonClose } from "../atoms/Button-close";
+import { FormVacancy } from "../organisms/Form-vacancy";
 
 const StyledIcons = styled.div`
   display: flex;
@@ -14,22 +17,52 @@ const StyledIcons = styled.div`
   gap: 0.5rem;
 `;
 
-const IconButtons = ({view}: {view:string}) => {
-  const {showModal,handleCloseModal, setShowModal } = useModal()
-
+const IconButtons = ({view}:{view: string}) => {
+  const { showModal, handleCloseModal, setShowModal, handleMouseCloseModal, } = useModal();
 
   const handleEdit = () => {
-    setShowModal(true)
-    {view === "vacantes" ? console.log("vacantes") : console.log("Edit button clicked")}
-  }
+    console.log("Edit");
+    setShowModal(true);
+  };
+
   const handleDelete = () => {
-    console.log("Delete button clicked");
-  }
+    console.log("Delete");
+  };
+
   return (
-    <StyledIcons>
-      <ButtonIcon $onClick={handleEdit} $icon={<MdOutlineModeEdit color="blue" />} />
-      <ButtonIcon $onClick={handleDelete} $icon={<FaRegTrashAlt color="red" />} />
-    </StyledIcons>
+    <>
+      <StyledIcons>
+        <ButtonIcon
+          $onClick={handleEdit}
+          $icon={<MdOutlineModeEdit color="blue" />}
+        />
+        <ButtonIcon
+          $onClick={handleDelete}
+          $icon={<FaRegTrashAlt color="red" />}
+        />
+      </StyledIcons>
+      {showModal && (
+        <Modal $onClick={handleMouseCloseModal}>
+          {view === "companies" ? (
+            <>
+              <FormCompany
+                view={view}
+                onClose={handleCloseModal}
+                $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
+              />
+            </>
+          ) : (
+            <>
+              <FormVacancy
+                view={view}
+                onClose={handleCloseModal}
+                $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
+              />
+            </>
+          )}
+        </Modal>
+      )}
+    </>
   );
 };
 
