@@ -8,8 +8,7 @@ import Label from "../atoms/Label";
 import { CompaniesService } from "@/services/companies.service";
 import { ButtonForm } from "../atoms/Button-form";
 import Form from "../molecules/Form";
-import { ICompanyRequest, ICompanyResponse, IVacanciesResponse } from "@/utils/models/models";
-import { useRouter } from "next/navigation";
+import { ICompanyRequest, ICompanyResponse } from "@/utils/models/models";
 
 type FormCompanyProps = {
   view: string;
@@ -28,7 +27,6 @@ const companiesService = new CompaniesService();
 
 export const FormCompany = ({ view, onClose,  $buttonClose, $companyEdit }: FormCompanyProps) => {
   const [formData, setFormData] = useState<ICompanyRequest>(initialState);
-  const router = useRouter();
 
   useEffect(()=>{
     if ($companyEdit) {
@@ -55,11 +53,11 @@ export const FormCompany = ({ view, onClose,  $buttonClose, $companyEdit }: Form
       } else {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const response = await companiesService.createCompany(formData);
-      }
-      onClose();
-      router.refresh();
+      } 
     } catch (error) {
       console.error("Error creating company: ", error);
+    }finally{
+      onClose();
     }
   }; 
 

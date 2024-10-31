@@ -18,9 +18,10 @@ export const useCompanies = () => {
         setCurrentPage(response.number + 1);
         setTotalPages(response.totalPages);
       }
+      
     } catch (error) {
       console.error("Error fetching companies data: ", error);
-    }
+    } 
   };
 
   useEffect(() => {

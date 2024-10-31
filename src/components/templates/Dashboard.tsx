@@ -63,7 +63,7 @@ export const Dashboard = () => {
             <Modal $onClick={handleMouseCloseModal}>
               {view === "companies" ? (
                 <>
-                  <FormCompany view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} $companyCreated />}/>
+                  <FormCompany view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} />}/>
                 </>
               ) : (
                 <>

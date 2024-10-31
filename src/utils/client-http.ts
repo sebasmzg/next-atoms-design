@@ -39,13 +39,12 @@ export class HttpClient {
     return this.handleResponse(response);
   }
 
-  async delete<T>(url: string, id: string): Promise<T> {
+  async delete(url: string, id: string){
     const header = await this.getHeader();
-    const response = await fetch(`${this.baseUrl}/${url}/${id}`, {
+    await fetch(`${this.baseUrl}/${url}/${id}`, {
       headers: header,
       method: "DELETE",
     });
-    return this.handleResponse(response);
   }
 
   async put<T, R>(url: string, id: string, data: R): Promise<T> {

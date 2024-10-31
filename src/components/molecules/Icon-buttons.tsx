@@ -10,7 +10,6 @@ import { ButtonClose } from "../atoms/Button-close";
 import { FormVacancy } from "../organisms/Form-vacancy";
 import { CompaniesService } from "@/services/companies.service";
 import { VacanciesService } from "@/services/vacancies.service";
-import { ConfirmModal } from "../organisms/Confirm";
 
 const StyledIcons = styled.div`
   display: flex;
@@ -31,7 +30,6 @@ const vacanciesService = new VacanciesService();
 
 const IconButtons = ({ view, itemData }: IconButtonsProps) => {
   const { showModal, handleOpenModal, handleCloseModal, handleMouseCloseModal} = useModal();
-  const { showModal: showConfirmModal, handleOpenModal: handleOpenConfirmModal, handleCloseModal: handleCloseConfirmModal } = useModal();
 
   const handleEdit = () => {
     handleOpenModal();
