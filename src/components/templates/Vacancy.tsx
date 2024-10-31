@@ -1,3 +1,5 @@
+"use client";
+
 import { useVacancies } from "@/hooks/useVacancies";
 import { CardList } from "../organisms/Card-list";
 

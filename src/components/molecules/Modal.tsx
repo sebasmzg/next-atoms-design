@@ -1,5 +1,8 @@
+"use client";
+
 import styled from "styled-components";
 import { ModalContent } from "../atoms/Modal-content";
+import { useModalContext } from "@/context/modalContext";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -14,17 +17,16 @@ const StyledModal = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-interface ModalProps {
-  children: React.ReactNode;
-  $onClick: (e: React.MouseEvent) => void;
-}
+export const Modal = () => {
+  const { showModal, closeModal, modalContent } = useModalContext();
 
-export const Modal = ({ children, $onClick }: ModalProps) => {
-    return (
-    <StyledModal onClick={$onClick}>
-      <ModalContent $onClick={(e)=>e.stopPropagation()}>
-        {children}
+  if (!showModal) return null;
+
+  return (
+    <StyledModal onClick={closeModal}>
+      <ModalContent $onClick={(e) => e.stopPropagation()}>
+        {modalContent}
       </ModalContent>
-      </StyledModal>
-    );
+    </StyledModal>
+  );
 };

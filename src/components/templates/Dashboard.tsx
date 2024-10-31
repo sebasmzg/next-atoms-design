@@ -1,6 +1,6 @@
 "use client";
 
-import {  useState } from "react";
+import {  ReactNode, useState } from "react";
 import ButtonSwitch from "../atoms/Button-switch";
 import { MdWorkOutline } from "react-icons/md";
 import { PiBuildingApartment } from "react-icons/pi";
@@ -12,21 +12,40 @@ import { Title } from "../atoms/Title";
 import { MainContent } from "../atoms/Main-Content";
 import { PageHeader } from "../atoms/Main-header";
 import { Navbar } from "../atoms/Navbar";
-import { Modal } from "../molecules/Modal";
+import { useModalContext } from "@/context/modalContext";
 import { FormCompany } from "../organisms/Form-company";
 import { FormVacancy } from "../organisms/Form-vacancy";
-import Company from "./Company";
-import Vacancy from "./Vacancy";
-import { useModal } from "@/hooks/useModal";
 import { ButtonClose } from "../atoms/Button-close";
+import { useRouter } from "next/navigation";
 
-export const Dashboard = () => {
+export const Dashboard = ({children}: {children:ReactNode}) => {
+  const { openModal, setModalContent, closeModal } = useModalContext();
   const [view, setView] = useState("vacantes");
-  const {showModal,handleCloseModal, setShowModal, handleMouseCloseModal } = useModal()
+  const router = useRouter();
 
   const handleSwitch = (isLeft: boolean) => {
     setView(isLeft ? "vacantes" : "companies");
+    router.push(isLeft ? "/vacancies" : "/companies");
   };
+
+  const handleModal = () => {
+    setModalContent(
+      view === "companies" ? (
+        <FormCompany
+          view={view}
+          onClose={closeModal}
+          $buttonClose={<ButtonClose $onClick={closeModal} />}
+        />
+      ) : (
+        <FormVacancy
+          view={view}
+          onClose={closeModal}
+          $buttonClose={<ButtonClose $onClick={closeModal} />}
+        />
+      )
+    )
+    openModal();
+  }
 
   return (
     <MainLayout>
@@ -56,29 +75,12 @@ export const Dashboard = () => {
               $view={view}
               $text="Agregar nuevo"
               $icon={<IoIosAddCircleOutline />}
-              $onClick={() => setShowModal(true)}
+              $onClick={handleModal}
             />
           </div>
-          {showModal && (
-            <Modal $onClick={handleMouseCloseModal}>
-              {view === "companies" ? (
-                <>
-                  <FormCompany view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} />}/>
-                </>
-              ) : (
-                <>
-                  <FormVacancy view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} />}/>
-                </>
-              )}
-            </Modal>
-          )}
         </PageHeader>
         <div>
-          {view === "vacantes" ? (
-            <Vacancy />
-          ):(
-            <Company />
-          )}
+          {children}
         </div>
       </MainContent>
     </MainLayout>

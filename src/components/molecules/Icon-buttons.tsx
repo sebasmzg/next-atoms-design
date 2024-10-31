@@ -3,13 +3,12 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { ButtonIcon } from "../atoms/Button-icons";
 import { ICompanyResponse, IVacanciesResponse } from "@/utils/models/models";
-import { useModal } from "@/hooks/useModal";
-import { Modal } from "./Modal";
 import { FormCompany } from "../organisms/Form-company";
 import { ButtonClose } from "../atoms/Button-close";
 import { FormVacancy } from "../organisms/Form-vacancy";
 import { CompaniesService } from "@/services/companies.service";
 import { VacanciesService } from "@/services/vacancies.service";
+import { useModalContext } from "@/context/modalContext";
 
 const StyledIcons = styled.div`
   display: flex;
@@ -29,10 +28,28 @@ const companiesService = new CompaniesService();
 const vacanciesService = new VacanciesService();
 
 const IconButtons = ({ view, itemData }: IconButtonsProps) => {
-  const { showModal, handleOpenModal, handleCloseModal, handleMouseCloseModal} = useModal();
+
+  const { openModal, setModalContent, closeModal } = useModalContext();
 
   const handleEdit = () => {
-    handleOpenModal();
+    setModalContent(
+      view === "companies" ? (
+        <FormCompany
+          view={view}
+          onClose={closeModal}
+          $buttonClose={<ButtonClose $onClick={closeModal} />}
+          $companyEdit={itemData as ICompanyResponse}
+        />
+      ) : (
+        <FormVacancy
+          view={view}
+          onClose={closeModal}
+          $buttonClose={<ButtonClose $onClick={closeModal} />}
+          $vacancyEdit={itemData as IVacanciesResponse}
+        />
+      )
+    );
+    openModal();
   };
 
   const handleDelete = async () => {
@@ -65,25 +82,7 @@ const IconButtons = ({ view, itemData }: IconButtonsProps) => {
           $icon={<FaRegTrashAlt color="red" />}
         />
       </StyledIcons>
-      {showModal && (
-        <Modal $onClick={handleMouseCloseModal}>
-          {view === "companies" ? (
-            <FormCompany
-              view={view}
-              onClose={handleCloseModal}
-              $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
-              $companyEdit={itemData as ICompanyResponse} // Pass the item data to the form
-            />
-          ) : (
-            <FormVacancy
-              view={view}
-              onClose={handleCloseModal}
-              $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
-              $vacancyEdit={itemData as IVacanciesResponse} // Pass the item data to the form
-            />
-          )}
-        </Modal>
-      )}
+      
     </>
   );
 };
