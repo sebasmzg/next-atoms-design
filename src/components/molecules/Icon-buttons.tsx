@@ -2,11 +2,15 @@ import styled from "styled-components";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { ButtonIcon } from "../atoms/Button-icons";
+import { ICompanyResponse, IVacanciesResponse } from "@/utils/models/models";
 import { useModal } from "@/hooks/useModal";
-import { Modal } from "../atoms/Modal";
+import { Modal } from "./Modal";
 import { FormCompany } from "../organisms/Form-company";
 import { ButtonClose } from "../atoms/Button-close";
 import { FormVacancy } from "../organisms/Form-vacancy";
+import { CompaniesService } from "@/services/companies.service";
+import { VacanciesService } from "@/services/vacancies.service";
+import { ConfirmModal } from "../organisms/Confirm";
 
 const StyledIcons = styled.div`
   display: flex;
@@ -17,17 +21,39 @@ const StyledIcons = styled.div`
   gap: 0.5rem;
 `;
 
-const IconButtons = ({view}:{view: string}) => {
-  const { showModal, handleCloseModal, setShowModal, handleMouseCloseModal, } = useModal();
+interface IconButtonsProps {
+  view: string;
+  itemData?: ICompanyResponse | IVacanciesResponse | undefined;
+}
+
+const companiesService = new CompaniesService();
+const vacanciesService = new VacanciesService();
+
+const IconButtons = ({ view, itemData }: IconButtonsProps) => {
+  const { showModal, handleOpenModal, handleCloseModal, handleMouseCloseModal} = useModal();
+  const { showModal: showConfirmModal, handleOpenModal: handleOpenConfirmModal, handleCloseModal: handleCloseConfirmModal } = useModal();
 
   const handleEdit = () => {
-    console.log("Edit");
-    setShowModal(true);
+    handleOpenModal();
   };
 
-  const handleDelete = () => {
-    console.log("Delete");
-  };
+  const handleDelete = async () => {
+    if (itemData) {
+      try {
+        if (view === "companies"){
+          window.confirm("Are you sure you want to delete this item?");
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const response = await companiesService.deleteCompany(itemData.id);
+        } else {
+          window.confirm("Are you sure you want to delete this item?");
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const response = await vacanciesService.deleteVacancy(itemData.id);
+        }
+        } catch (error) {
+          console.error("Error deleting item: ", error);
+        }
+      }
+    }
 
   return (
     <>
@@ -44,21 +70,19 @@ const IconButtons = ({view}:{view: string}) => {
       {showModal && (
         <Modal $onClick={handleMouseCloseModal}>
           {view === "companies" ? (
-            <>
-              <FormCompany
-                view={view}
-                onClose={handleCloseModal}
-                $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
-              />
-            </>
+            <FormCompany
+              view={view}
+              onClose={handleCloseModal}
+              $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
+              $companyEdit={itemData as ICompanyResponse} // Pass the item data to the form
+            />
           ) : (
-            <>
-              <FormVacancy
-                view={view}
-                onClose={handleCloseModal}
-                $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
-              />
-            </>
+            <FormVacancy
+              view={view}
+              onClose={handleCloseModal}
+              $buttonClose={<ButtonClose $onClick={handleCloseModal} />}
+              $vacancyEdit={itemData as IVacanciesResponse} // Pass the item data to the form
+            />
           )}
         </Modal>
       )}

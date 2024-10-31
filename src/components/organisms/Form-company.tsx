@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { FormGroup } from "../atoms/Form-group";
 import { FormTitle } from "../atoms/Form-title";
 import { InputText } from "../atoms/Input-text";
@@ -8,14 +8,14 @@ import Label from "../atoms/Label";
 import { CompaniesService } from "@/services/companies.service";
 import { ButtonForm } from "../atoms/Button-form";
 import Form from "../molecules/Form";
-import { ButtonClose } from "../atoms/Button-close";
-import { ICompanyRequest } from "@/utils/models/models";
-import { useModal } from "@/hooks/useModal";
+import { ICompanyRequest, ICompanyResponse, IVacanciesResponse } from "@/utils/models/models";
+import { useRouter } from "next/navigation";
 
 type FormCompanyProps = {
   view: string;
   onClose: () => void;
   $buttonClose?: ReactNode;
+  $companyEdit?: ICompanyResponse | undefined;
 };
 
 const initialState = {
@@ -26,9 +26,20 @@ const initialState = {
 
 const companiesService = new CompaniesService();
 
-export const FormCompany = ({ view, onClose,  $buttonClose }: FormCompanyProps) => {
+export const FormCompany = ({ view, onClose,  $buttonClose, $companyEdit }: FormCompanyProps) => {
   const [formData, setFormData] = useState<ICompanyRequest>(initialState);
-  
+  const router = useRouter();
+
+  useEffect(()=>{
+    if ($companyEdit) {
+      setFormData({
+        name: $companyEdit.name,
+        location: $companyEdit.location,
+        contact: $companyEdit.contact,
+      });
+    }
+  },[$companyEdit]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData)=>({
       ...prevData,
@@ -38,11 +49,15 @@ export const FormCompany = ({ view, onClose,  $buttonClose }: FormCompanyProps) 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data before form:", formData);
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const response = await companiesService.createCompany(formData);
+      if ($companyEdit){
+        await companiesService.updateCompany($companyEdit.id, formData);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const response = await companiesService.createCompany(formData);
+      }
       onClose();
+      router.refresh();
     } catch (error) {
       console.error("Error creating company: ", error);
     }
@@ -61,6 +76,7 @@ export const FormCompany = ({ view, onClose,  $buttonClose }: FormCompanyProps) 
             $onChange={handleChange}
             $view={view}
             $type="text"
+            $value={formData.name}
           />
         </FormGroup>
         <FormGroup>
@@ -71,6 +87,7 @@ export const FormCompany = ({ view, onClose,  $buttonClose }: FormCompanyProps) 
             $onChange={handleChange}
             $view={view}
             $type="text"
+            $value={formData.location}
           />
         </FormGroup>
         <FormGroup>
@@ -81,10 +98,11 @@ export const FormCompany = ({ view, onClose,  $buttonClose }: FormCompanyProps) 
             $onChange={handleChange}
             $view={view}
             $type="text"
+            $value={formData.contact}
           />
         </FormGroup>
         <FormGroup>
-          <ButtonForm $text="Submit" $view={view} />
+          <ButtonForm $text={$companyEdit ? "Update" : "Create"} $view={view} />
         </FormGroup>
       </Form>
     </>

@@ -13,6 +13,7 @@ export const GlobalStyle = createGlobalStyle`
         overflow-x: hidden;
         margin: 0;
         padding: 0;
+        font-family: 'Poppins', sans-serif;
         background: linear-gradient(
         to bottom,
         ${(props) => props.theme.colors.background.gradient.lightPurple},

@@ -27,11 +27,12 @@ interface InputProps {
   $name: string;
   $type: string;
   $placeholder?: string;
+  $value?: string;
 }
 
-export const InputText = ({ $title: $title, $view="default",$name, $type, $onChange }: InputProps) => {
+export const InputText = ({ $title: $title, $view="default",$name, $type, $onChange, $value}: InputProps) => {
   return (
-    <StyledInput type={$type} title={$title} name={$name} $view={$view} onChange={$onChange}/>
+    <StyledInput type={$type} title={$title} name={$name} $view={$view} onChange={$onChange} value={$value}/>
   );
 };
 

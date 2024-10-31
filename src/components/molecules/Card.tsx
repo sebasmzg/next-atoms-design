@@ -44,7 +44,7 @@ export const Card = ({ $data }: CardProps) => {
                 `Company: ${$data.company.name}`,
               ]}
             />
-            <IconButtons view="companies"/>
+            <IconButtons view="vacantes" itemData={$data}/>
           </div>
         ) : (
           <div>
@@ -52,7 +52,7 @@ export const Card = ({ $data }: CardProps) => {
             <StyledCardContent
               $text={[`Location: ${$data.location}`, `Contact: ${$data.contact}`]}
             />
-            <IconButtons view="companies"/>
+            <IconButtons view="companies" itemData={$data}/>
           </div>
         )
       )}

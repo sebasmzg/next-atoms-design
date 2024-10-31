@@ -10,7 +10,6 @@ export default function Vacancies() {
       $currentPage={currentPage}
       $totalPages={totalPages}
       onPageChange={setCurrentPage}
-      $view="vacantes"
     />
   );
 }

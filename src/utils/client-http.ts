@@ -60,7 +60,6 @@ export class HttpClient {
 
   async post<T, R>(url: string, data: R): Promise<T> {
     const header = await this.getHeader();
-    console.log("URL:", `${this.baseUrl}/${url}`);
     const response = await fetch(`${this.baseUrl}/${url}`, {
       headers: header,
       method: "POST",

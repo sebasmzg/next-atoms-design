@@ -19,16 +19,15 @@ interface CardListProps {
   $currentPage: number;
   $totalPages: number;
   onPageChange: (page: number) => void;
-  $view?: string;
 }
 
-export const CardList = ({ $data, $currentPage, $totalPages, onPageChange, $view="default" }: CardListProps) => {
+export const CardList = ({ $data, $currentPage, $totalPages, onPageChange}: CardListProps) => {
   return (
     <>
       <StyledCardList>       
         {$data && $data.content && $data.content.length > 0 ?(
           $data.content.map((item) => (
-            <Card $data={item} key={item.id} $view={$view}/>
+            <Card $data={item} key={item.id}/>
           ))
         ):(
           <div>Fetching data...</div>

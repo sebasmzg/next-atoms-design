@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { ModalContent } from "../atoms/Modal-content";
 
 const StyledModal = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -11,7 +12,6 @@ const StyledModal = styled.div`
   height: 100%;
   z-index: 100;
   background: rgba(0, 0, 0, 0.5);
-  border-radius: ${({ theme }) => theme.borderRadius};
 `;
 
 interface ModalProps {
@@ -20,5 +20,11 @@ interface ModalProps {
 }
 
 export const Modal = ({ children, $onClick }: ModalProps) => {
-    return <StyledModal onClick={$onClick}>{children}</StyledModal>;
+    return (
+    <StyledModal onClick={$onClick}>
+      <ModalContent $onClick={(e)=>e.stopPropagation()}>
+        {children}
+      </ModalContent>
+      </StyledModal>
+    );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormGroup } from "../atoms/Form-group";
 import { FormTitle } from "../atoms/Form-title";
 import { InputText } from "../atoms/Input-text";
@@ -10,12 +10,14 @@ import { ButtonForm } from "../atoms/Button-form";
 import Form from "../molecules/Form";
 import { VacanciesService } from "@/services/vacancies.service";
 import { useAllCompanies } from "@/hooks/useAllCompanies";
-import { IVacancyRequest } from "@/utils/models/models";
+import { IVacanciesResponse, IVacancyRequest } from "@/utils/models/models";
+import { useRouter } from "next/navigation";
 
-type FormCompanyProps = {
+type FormVacancyProps = {
   view: string;
   onClose: () => void;
   $buttonClose?: React.ReactNode;
+  $vacancyEdit?:  IVacanciesResponse | undefined;
 };
 
 const initialState = {
@@ -25,10 +27,22 @@ const initialState = {
   companyId: "",
 };
 
-export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) => {
+export const FormVacancy = ({ view, onClose, $buttonClose, $vacancyEdit }: FormVacancyProps) => {
   const [formData, setFormData] = useState<IVacancyRequest>(initialState);
   const { companies } = useAllCompanies();
   const vacanciesService = new VacanciesService();
+  const router = useRouter();
+
+  useEffect(()=>{
+    if ($vacancyEdit) {
+      setFormData({
+        title: $vacancyEdit.title,
+        description: $vacancyEdit.description,
+        status: $vacancyEdit.status,
+        companyId: $vacancyEdit.company.id || "",
+      });
+    }
+  },[$vacancyEdit]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -36,19 +50,23 @@ export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) =
       ...formData,
       [name]: value,
     });
-    console.log("Form Data change:", { ...formData, [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("data", formData);
     try {
-      console.log("Form Data before form:", formData);
-      await vacanciesService.createVacancy(formData);
-      console.log("Form Data after form:", formData);
+      if ($vacancyEdit){
+        await vacanciesService.updateVacancy($vacancyEdit.id, formData );
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const response = await vacanciesService.createVacancy(formData);
+      }
       onClose();
+      
     } catch (error) {
       console.error("Error creating company: ", error);
+    } finally {
+      router.refresh();
     }
   };
 
@@ -65,6 +83,7 @@ export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) =
             $onChange={handleChange}
             $view={view}
             $type="text"
+            $value={formData.title}
           />
         </FormGroup>
         <FormGroup>
@@ -75,6 +94,7 @@ export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) =
             $onChange={handleChange}
             $view={view}
             $type="text"
+            $value={formData.description}
           />
         </FormGroup>
         <FormGroup>
@@ -84,6 +104,7 @@ export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) =
             $name="status"
             $onChange={handleChange}
             $view={view}
+            $value={formData.status}
             $options={[
               { value: "ACTIVE", label: "Active" },
               { value: "INACTIVE", label: "Inactive" },
@@ -97,6 +118,7 @@ export const FormVacancy = ({ view, onClose, $buttonClose }: FormCompanyProps) =
             $name="companyId"
             $onChange={handleChange}
             $view={view}
+            $value={formData.companyId}
             $options={
               companies ? 
               companies.map((company)=>({value: company.id, label: company.name})) :

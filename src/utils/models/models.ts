@@ -1,6 +1,6 @@
 //-------------COMPANIES
 
-export interface Icompany {
+export interface ICompany {
     id:       string;
     name:     string;
     location: string;
@@ -38,7 +38,7 @@ export interface ICompanyPageable {
 //-------------VACANCIES
 
 export interface IVacant {
-    id:          number;
+    id:          string;
     title:       string;
     description: string;
     status:      string;
@@ -47,7 +47,7 @@ export interface IVacant {
 export interface IVacancy{
     title:       string;
     description: string;
-    state:       string;
+    status:       string;
     id:          string;
     companyId:   string;
 }
@@ -60,11 +60,11 @@ export interface IVacancyRequest {
 }
 
 export interface IVacanciesResponse {
-    id:          number;
+    id:          string;
     title:       string;
     description: string;
     status:      string;
-    company:     Icompany;
+    company:     ICompany;
 }
 
 export interface IVacanciesPageable {

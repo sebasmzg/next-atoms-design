@@ -42,9 +42,9 @@ export class VacanciesService {
     }
   }
 
-  async updateVacancy<IVacancy>(id: string, data: IVacancy) {
+  async updateVacancy<IVacancyRequest>(id: string, data: IVacancyRequest) {
     try {
-      const vacancy = await this.httpClient.put<IVacanciesResponse, IVacancy>("vacants", id, data);
+      const vacancy = await this.httpClient.put<IVacanciesResponse, IVacancyRequest>("vacants", id, data);
       return vacancy;
     } catch (error) {
       this.errorHandler(error, "updating vacancy.");

@@ -12,7 +12,7 @@ import { Title } from "../atoms/Title";
 import { MainContent } from "../atoms/Main-Content";
 import { PageHeader } from "../atoms/Main-header";
 import { Navbar } from "../atoms/Navbar";
-import { Modal } from "../atoms/Modal";
+import { Modal } from "../molecules/Modal";
 import { FormCompany } from "../organisms/Form-company";
 import { FormVacancy } from "../organisms/Form-vacancy";
 import Company from "./Company";
@@ -63,7 +63,7 @@ export const Dashboard = () => {
             <Modal $onClick={handleMouseCloseModal}>
               {view === "companies" ? (
                 <>
-                  <FormCompany view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} />}/>
+                  <FormCompany view={view} onClose={handleCloseModal} $buttonClose={<ButtonClose $onClick={handleCloseModal} $companyCreated />}/>
                 </>
               ) : (
                 <>

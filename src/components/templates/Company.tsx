@@ -10,7 +10,6 @@ export default function Companies() {
       $currentPage={currentPage}
       $totalPages={totalPages}
       onPageChange={setCurrentPage}
-      $view="company"
     />
 
   );
